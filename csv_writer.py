@@ -14,14 +14,17 @@ class WRITEcsv:
 def write_column(wfname,fieldname,coldata):
    assert(len(fieldname)==len(coldata))
    numcol = len(coldata)
-   collen = [len(data) for data in coldata]
+   collen  = [len(data) for data in coldata]
+   headlen = [len(data) for data in fieldname]
    with open(wfname,"w") as wf: 
-      for i in range(numcol):
-         wf.write(fieldname[i])
-         if i < numcol-1:
-            wf.write(',')
-         else:
-            wf.write('\n')
+      for j in range(max(headlen)):
+         for i in range(numcol):
+            if j < headlen[i]:
+               wf.write(str(fieldname[i][j]))
+            if i < numcol-1:
+               wf.write(',')
+            else:
+               wf.write('\n')
       for j in range(max(collen)):
          for i in range(numcol):
             if j < collen[i]:
