@@ -1,3 +1,4 @@
+import os
 class WRITEcsv:
    def __init__(self):
       self.coldata = []
@@ -11,12 +12,26 @@ class WRITEcsv:
    def write(self,wfname):
       write_column(wfname,self.colname,self.coldata)
 
-def write_column(wfname,fieldname,coldata):
+def write_column(wfname,fieldname,coldata,force=False):
    assert(len(fieldname)==len(coldata))
    numcol = len(coldata)
    collen  = [len(data) for data in coldata]
    headlen = [len(data) for data in fieldname]
-   with open(wfname,"w") as wf: 
+   if os.path.isfile(wfname) and (not force):
+      overwrite = input(wfname+" already exists. Overwrite? ")
+      if overwrite == "y":
+         pass
+      else:
+         return
+      
+   try:
+      wf=open(wfname,"w")
+   except FileNotFoundError:
+      dirname = wfname[:wfname.rfind('/')]
+      print ("csv_writer --- Creating Directory", dirname)
+      os.makedirs(dirname)
+      wf=open(wfname,"w")
+   finally:
       for j in range(max(headlen)):
          for i in range(numcol):
             if j < headlen[i]:

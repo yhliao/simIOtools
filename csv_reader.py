@@ -19,6 +19,23 @@ class readCSV:
 
                   arr.append(float(t))
          ref.close()
+
+   def todict(self,periodicity=0):
+      if periodicity == 0:
+         return dict(zip(self.field,self.data))
+      else:
+         assert len(self.field) == len(self.data)
+         assert len(self.field) % periodicity == 0
+         numdict = int(len(self.field) / periodicity)
+         dictlist = []
+         for i in range(numdict):
+            i_from = i * periodicity
+            i_to   = i_from + periodicity
+            newdict = dict(zip(self.field[i_from:i_to],
+                               self.data[i_from:i_to]))
+            dictlist.append(newdict)
+         return dictlist
+
    def retrieve(self,varname):
       idx = self.field.index(varname)
       return np.array(self.data[idx])
