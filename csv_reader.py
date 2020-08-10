@@ -11,9 +11,10 @@ class readCSV:
                self.field = row.split(",")
                for i in range(len(self.field)):
                   self.data.append([])
+            elif row=="":
+               pass
             else:
                tokens = row.split(",")
-               assert(len(tokens)==len(self.data))
                for j, t in enumerate(tokens):
                   arr = self.data[j]
 
@@ -39,3 +40,6 @@ class readCSV:
    def retrieve(self,varname):
       idx = self.field.index(varname)
       return np.array(self.data[idx])
+
+   def tolist(self):
+      return self.field, self.data

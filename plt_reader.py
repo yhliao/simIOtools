@@ -34,8 +34,9 @@ class readPLT:
          data[i] = chunk[nr][nc]
       return data
 
-   def read_plt(self,filename):
-      print ("Reading file {}...".format(filename))
+   def read_plt(self,filename,read_silence=False):
+      if not read_silence:
+         print ("Reading file {}...".format(filename))
       pltfile = open(filename,"r")
       ### Skip first 6 lines
       for i in range(5):
